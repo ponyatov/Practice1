@@ -15,9 +15,10 @@
                 "workbench.action.files.saveAll",
                 {"command": "workbench.action.terminal.sendSequence",
                     // "args": {"text": "\u000D clear ; make test \u000D"}}
-                    "args": {"text": "\u000D clear ; make jar \u000D"}}
+                    // "args": {"text": "\u000D clear ; make jar \u000D"}}
                     // "args": {"text": "\u000D clear ; make all \u000D"}}
-            ]
+                    "args": {"text": "\u000D clear ; make docs \u000D"}}
+                ]
         },
     ],
     // / multi

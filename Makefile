@@ -66,6 +66,9 @@ MAIN = $(PACKAGE).MainClass
 run test: $(CLASS)
 	$(JAVA) $(MAIN) $(shell ls)
 
+docs: $(J)
+	javadoc -private $(J)
+
 ###############################################################################
 
 .PHONY: install $(OS)_install
