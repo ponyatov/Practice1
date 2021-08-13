@@ -31,25 +31,25 @@ au BufNewFile,BufRead *.py set expandtab
 filetype on
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 
-inoremap <F2> <ESC>:w<CR><INS>
-nnoremap <F2> :w<CR>
+inoremap <F2>  <ESC>:w<CR><INS>
+nnoremap <F2>       :w<CR>
 inoremap <c-s> <ESC>:w<CR><INS>
-nnoremap <c-s> :w<CR>
+nnoremap <c-s>      :w<CR>
 
-inoremap <F4> <ESC>:w<CR>:!make clean<CR>
-nnoremap <F4> :w<CR>:!make clean<CR>
+inoremap <F4>  <ESC>:w<CR>:!make clean<CR>
+nnoremap <F4>       :w<CR>:!make clean<CR>
 
 "inoremap <F9> <ESC>:syn off<CR>:syn on <CR><INS>
-"nnoremap <F9> :syn off<CR>:syn on <CR>
+"nnoremap <F9>      :syn off<CR>:syn on <CR>
 
-nnoremap <F12>      :w<CR>:!make OS=linux RES= EXE= TAIL=-n17<CR>
-inoremap <F12> <ESC>:w<CR>:!make OS=linux RES= EXE= TAIL=-n17<CR>
+nnoremap <F12>      :w<CR>:!make test<CR>
+inoremap <F12> <ESC>:w<CR>:!make test<CR>
 
-nnoremap <F9>		:w<CR>:call system('make OS=linux')<CR>
+nnoremap <F9>	   :w<CR>:call system('make OS=linux')<CR>
 inoremap <F9> <ESC>:w<CR>:call system('make OS=linux')<CR><INS>
 
-noremap <c-t> :tabf<space>
-noremap <c-w> ZZ
+noremap  <c-t> :tabf<space>
+noremap  <c-w> ZZ
 inoremap <c-t> <ESC>:tabf<space>
 inoremap <c-w> <ESC>ZZ
 
