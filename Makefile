@@ -43,6 +43,7 @@ $(OS)_install:
 	sudo apt install -u `cat apt.txt`
 
 MERGE  = Makefile README.md apt.txt .gitignore $(S)
+MERGE += src tmp
 
 .PHONY: dev
 dev:
