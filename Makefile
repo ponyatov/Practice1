@@ -47,16 +47,19 @@ CLASS = $(shell echo $(J) | sed "s/sources/classes/g" | sed "s/\.java/\.class/g"
 # compile all: $(CLASS)
 all: jar
 
+PACKAGE = com.nc.edu.ta.pr1
+PACKDOT = $(shell echo $(PACKAGE) | sed "s/\./\//g")
+
 jar: build/$(MODULE).jar
 build/$(MODULE).jar: $(CLASS) Makefile
-	$(JAR) cf $@ $(CLASS)
-	$(JAR) tf $@
+	$(JAR) cfm $@ res/manifest.mf classes/$(PACKDOT)/*.class
+	$(JAR) tf  $@
 
 $(CLASS): $(J)
 	$(JAVAC) $(JFLAGS) $^
 
 MAIN = Example1
-MAIN = com.nc.edu.ta.pr1.MainClass
+MAIN = $(PACKAGE).MainClass
 
 run test: $(CLASS)
 	$(JAVA) $(MAIN) $(shell ls)
@@ -70,7 +73,7 @@ $(OS)_install:
 	sudo apt install -u `cat apt.txt`
 
 MERGE  = Makefile README.md apt.txt .gitignore $(S) .vimrc
-MERGE += tmp $(SRC) $(CLS) $(RES) $(BUILD)
+MERGE += tmp $(SRC) $(CLS) $(RES) $(BLD)
 
 .PHONY: dev
 dev:
