@@ -23,6 +23,7 @@
     // \ files
     "files.exclude": {
         "**/docs/**":true,
+        "**/*.swp":true,
     },
     "files.watcherExclude": {
     },
