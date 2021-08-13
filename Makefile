@@ -44,17 +44,19 @@ CLASS = $(shell echo $(J) | sed "s/sources/classes/g" | sed "s/\.java/\.class/g"
 
 ###############################################################################
 
-# compile all: $(CLASS)
-all: jar
-
-PACKAGE = com.nc.edu.ta.pr1
-PACKDOT = $(shell echo $(PACKAGE) | sed "s/\./\//g")
-
+all: build/$(MODULE).jar
 jar: build/$(MODULE).jar
+	java -jar $<
+
+PACKAGE  = com.nc.edu.ta.pr1
+PACKPATH = $(shell echo $(PACKAGE) | sed "s/\./\//g")
+
+build: build/$(MODULE).jar
 build/$(MODULE).jar: $(CLASS) Makefile
-	$(JAR) cfm $@ res/manifest.mf classes/$(PACKDOT)/*.class
+	$(JAR) cfm $@ res/manifest.mf -C classes $(PACKPATH)
 	$(JAR) tf  $@
 
+compile: $(CLASS)
 $(CLASS): $(J)
 	$(JAVAC) $(JFLAGS) $^
 
