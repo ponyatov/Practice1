@@ -30,6 +30,11 @@ ANTLR   = $(which antlr4)
 JFLAGS += -source 8 -target 1.8
 # / cfg
 
+# \ src
+J += $(shell find src -type f -regex ".+.java$$")
+S += $(J)
+# / src
+
 ###############################################################################
 
 
