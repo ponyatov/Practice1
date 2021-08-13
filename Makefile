@@ -21,13 +21,14 @@ TMP     = $(CWD)/tmp
 # \ tool
 # http/ftp download tool
 CURL    = curl -L -o
-JAVA    = $(which java)
-JAVAC   = $(which javac)
-ANTLR   = $(which antlr4)
+JAVA    = $(shell which java) -cp bin
+JAVAC   = $(shell which javac)
+ANTLR   = $(shell which antlr4)
 # / tool
 
 # \ cfg
-JFLAGS += -source 8 -target 1.8
+# JFLAGS += -source 8 -target 1.8
+JFLAGS += -d bin
 # / cfg
 
 # \ src
@@ -35,9 +36,18 @@ J += $(shell find src -type f -regex ".+.java$$")
 S += $(J)
 # / src
 
+CLASS = $(shell echo $(J) | sed "s/src/bin/g" | sed "s/\.java/\.class/g")
+
 ###############################################################################
 
+all: $(CLASS)
 
+bin/%.class: src/%.java
+	$(JAVAC) $(JFLAGS) $^
+
+MAIN = Example1
+test: $(CLASS)
+	$(JAVA) $(MAIN) $(shell ls)
 
 ###############################################################################
 
@@ -47,8 +57,8 @@ $(OS)_install:
 	sudo apt update
 	sudo apt install -u `cat apt.txt`
 
-MERGE  = Makefile README.md apt.txt .gitignore $(S)
-MERGE += src tmp
+MERGE  = Makefile README.md apt.txt .gitignore $(S) .vimrc
+MERGE += bin src tmp
 
 .PHONY: dev
 dev:
