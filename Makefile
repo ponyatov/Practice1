@@ -26,6 +26,7 @@ BLD     = $(CWD)/build
 CURL    = curl -L -o
 JAVA    = $(shell which java) -cp $(CLS)
 JAVAC   = $(shell which javac)
+JAR     = $(shell which jar)
 ANTLR   = $(shell which antlr4)
 # / tool
 
@@ -43,7 +44,13 @@ CLASS = $(shell echo $(J) | sed "s/sources/classes/g" | sed "s/\.java/\.class/g"
 
 ###############################################################################
 
-compile all: $(CLASS)
+# compile all: $(CLASS)
+all: jar
+
+jar: build/$(MODULE).jar
+build/$(MODULE).jar: $(CLASS) Makefile
+	$(JAR) cf $@ $(CLASS)
+	$(JAR) tf $@
 
 $(CLASS): $(J)
 	$(JAVAC) $(JFLAGS) $^
