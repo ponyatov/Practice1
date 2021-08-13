@@ -37,7 +37,7 @@ S += $(J)
 
 ###############################################################################
 
-
+all:
 
 ###############################################################################
 
@@ -47,7 +47,7 @@ $(OS)_install:
 	sudo apt update
 	sudo apt install -u `cat apt.txt`
 
-MERGE  = Makefile README.md apt.txt .gitignore $(S)
+MERGE  = Makefile README.md apt.txt .gitignore $(S) .vimrc
 MERGE += src tmp
 
 .PHONY: dev
