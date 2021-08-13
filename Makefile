@@ -18,33 +18,34 @@ SRC     = $(CWD)/sources
 TMP     = $(CWD)/tmp
 CLS     = $(CWD)/classes
 RES     = $(CWD)/res
+BUILD   = $(CWD)/build
 # / dir
 
 # \ tool
 # http/ftp download tool
 CURL    = curl -L -o
-JAVA    = $(shell which java) -cp bin
+JAVA    = $(shell which java) -cp $(CLS)
 JAVAC   = $(shell which javac)
 ANTLR   = $(shell which antlr4)
 # / tool
 
 # \ cfg
 # JFLAGS += -source 8 -target 1.8
-JFLAGS += -d bin
+JFLAGS += -d $(CLS)
 # / cfg
 
 # \ src
-J += $(shell find src -type f -regex ".+.java$$")
+J += $(shell find sources -type f -regex ".+.java$$")
 S += $(J)
 # / src
 
-CLASS = $(shell echo $(J) | sed "s/src/bin/g" | sed "s/\.java/\.class/g")
+CLASS = $(shell echo $(J) | sed "s/sources/classes/g" | sed "s/\.java/\.class/g")
 
 ###############################################################################
 
 all: $(CLASS)
 
-bin/%.class: src/%.java
+classes/%.class: sources/%.java
 	$(JAVAC) $(JFLAGS) $^
 
 MAIN = Example1
@@ -60,7 +61,7 @@ $(OS)_install:
 	sudo apt install -u `cat apt.txt`
 
 MERGE  = Makefile README.md apt.txt .gitignore $(S) .vimrc
-MERGE += bin tmp $(SRC) $(CLS) $(RES)
+MERGE += tmp $(SRC) $(CLS) $(RES) $(BUILD)
 
 .PHONY: dev
 dev:
