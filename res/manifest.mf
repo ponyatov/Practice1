@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Created-By: Dmitry Ponyatov
+Main-Class: com.nc.edu.ta.pr1.MainClass
