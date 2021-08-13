@@ -13,9 +13,11 @@ REL     = $(shell git rev-parse --short=4 HEAD)
 # current (project) directory
 CWD     = $(CURDIR)
 # source code (not for all languages, Rust/C included)
-SRC     = $(CWD)/src
+SRC     = $(CWD)/sources
 # temporary/generated files
 TMP     = $(CWD)/tmp
+CLS     = $(CWD)/classes
+RES     = $(CWD)/res
 # / dir
 
 # \ tool
@@ -58,7 +60,7 @@ $(OS)_install:
 	sudo apt install -u `cat apt.txt`
 
 MERGE  = Makefile README.md apt.txt .gitignore $(S) .vimrc
-MERGE += bin src tmp
+MERGE += bin tmp $(SRC) $(CLS) $(RES)
 
 .PHONY: dev
 dev:
