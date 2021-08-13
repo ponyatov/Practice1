@@ -18,7 +18,7 @@ SRC     = $(CWD)/sources
 TMP     = $(CWD)/tmp
 CLS     = $(CWD)/classes
 RES     = $(CWD)/res
-BUILD   = $(CWD)/build
+BLD     = $(CWD)/build
 # / dir
 
 # \ tool
@@ -43,13 +43,15 @@ CLASS = $(shell echo $(J) | sed "s/sources/classes/g" | sed "s/\.java/\.class/g"
 
 ###############################################################################
 
-all: $(CLASS)
+compile all: $(CLASS)
 
-classes/%.class: sources/%.java
+$(CLASS): $(J)
 	$(JAVAC) $(JFLAGS) $^
 
 MAIN = Example1
-test: $(CLASS)
+MAIN = com.nc.edu.ta.pr1.MainClass
+
+run test: $(CLASS)
 	$(JAVA) $(MAIN) $(shell ls)
 
 ###############################################################################
