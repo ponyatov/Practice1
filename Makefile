@@ -7,13 +7,17 @@ OS      = $(shell uname -s)
 NOW     = $(shell date +%d%m%y)
 # release hash: four hex digits (for snapshots)
 REL     = $(shell git rev-parse --short=4 HEAD)
+# current branch
+BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
+# number of CPU cores (for parallel builds)
+CORES   = $(shell grep processor /proc/cpuinfo| wc -l)
 # / var
 
 # \ dir
 # current (project) directory
 CWD     = $(CURDIR)
 # source code (not for all languages, Rust/C included)
-SRC     = $(CWD)/sources
+SRC     = $(CWD)/src
 # temporary/generated files
 TMP     = $(CWD)/tmp
 CLS     = $(CWD)/classes
