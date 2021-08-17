@@ -77,11 +77,19 @@ docs: $(J)
 
 ###############################################################################
 
+JUNIT_VER = 4.13.2
+JUNIT_JAR = junit-$(JUNIT_VER).jar
+lib/$(JUNIT_JAR):
+	$(CURL) $@ https://search.maven.org/remotecontent?filepath=junit/junit/$(JUNIT_VER)/$(JUNIT_JAR)
+
 .PHONY: install $(OS)_install
 install: $(OS)_install
+	$(MAKE) lib/$(JUNIT_JAR)
 $(OS)_install:
 	sudo apt update
 	sudo apt install -u `cat apt.txt`
+
+###############################################################################
 
 MERGE  = Makefile README.md apt.txt .gitignore $(S) .vimrc
 MERGE += tmp $(BIN) $(SRC) $(CLS) $(RES)
