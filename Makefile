@@ -88,16 +88,16 @@ MERGE += tmp $(BIN) $(SRC) $(CLS) $(RES)
 
 .PHONY: dev
 dev:
-	git push -v
+#	git push -v
 	git checkout $@
-	git pull -v
+#	git pull -v
 	git checkout ponymuck -- $(MERGE)
 
 .PHONY: ponymuck
 ponymuck:
-	git push -v
+#	git push -v
 	git checkout $@
-	git pull -v
+#	git pull -v
 
 .PHONY: release
 release:
