@@ -16,13 +16,14 @@ CORES   = $(shell grep processor /proc/cpuinfo| wc -l)
 # \ dir
 # current (project) directory
 CWD     = $(CURDIR)
+# compiled/executable files (target dir)
+BIN     = $(CWD)/build
 # source code (not for all languages, Rust/C included)
 SRC     = $(CWD)/src
 # temporary/generated files
 TMP     = $(CWD)/tmp
 CLS     = $(CWD)/classes
 RES     = $(CWD)/res
-BLD     = $(CWD)/build
 # / dir
 
 # \ tool
@@ -37,26 +38,29 @@ ANTLR   = $(shell which antlr4)
 # \ cfg
 # JFLAGS += -source 8 -target 1.8
 JFLAGS += -d $(CLS)
+
+MAINCLASS = Example1
+MAINCLASS = $(PACKAGE).MainClass
 # / cfg
 
 # \ src
-J += $(shell find sources -type f -regex ".+.java$$")
+J += $(shell find src -type f -regex ".+.java$$")
 S += $(J)
 # / src
 
-CLASS = $(shell echo $(J) | sed "s/sources/classes/g" | sed "s/\.java/\.class/g")
+CLASS = $(shell echo $(J) | sed "s/src/classes/g" | sed "s/\.java/\.class/g")
 
 ###############################################################################
 
-all: build/$(MODULE).jar
-jar: build/$(MODULE).jar
+all: $(BIN)/$(MODULE).jar
+jar: $(BIN)/$(MODULE).jar
 	java -jar $<
 
 PACKAGE  = com.nc.edu.ta.pr1
 PACKPATH = $(shell echo $(PACKAGE) | sed "s/\./\//g")
 
-build: build/$(MODULE).jar
-build/$(MODULE).jar: $(CLASS) Makefile
+build: $(BIN)/$(MODULE).jar
+$(BIN)/$(MODULE).jar: $(CLASS) Makefile
 	$(JAR) cfm $@ res/manifest.mf -C classes $(PACKPATH)
 	$(JAR) tf  $@
 
@@ -64,11 +68,8 @@ compile: $(CLASS)
 $(CLASS): $(J)
 	$(JAVAC) $(JFLAGS) $^
 
-MAIN = Example1
-MAIN = $(PACKAGE).MainClass
-
 run test: $(CLASS)
-	$(JAVA) $(MAIN) $(shell ls)
+	$(JAVA) $(MAINCLASS) $(shell ls)
 
 .PHONY: docs
 docs: $(J)
@@ -83,17 +84,20 @@ $(OS)_install:
 	sudo apt install -u `cat apt.txt`
 
 MERGE  = Makefile README.md apt.txt .gitignore $(S) .vimrc
-MERGE += tmp $(SRC) $(CLS) $(RES) $(BLD)
+MERGE += tmp $(BIN) $(SRC) $(CLS) $(RES)
 
 .PHONY: dev
 dev:
+	git push -v
 	git checkout $@
+	git pull -v
 	git checkout ponymuck -- $(MERGE)
 
 .PHONY: ponymuck
 ponymuck:
 	git push -v
 	git checkout $@
+	git pull -v
 
 .PHONY: release
 release:
