@@ -42,7 +42,6 @@ ANTLR   = $(shell which antlr4)
 # JFLAGS += -source 8 -target 1.8
 JFLAGS += -d $(CLS)
 
-MAINCLASS = Example1
 MAINCLASS = $(PACKAGE).MainClass
 # / cfg
 

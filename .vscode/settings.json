@@ -14,7 +14,7 @@
             "sequence": [
                 "workbench.action.files.saveAll",
                 {"command": "workbench.action.terminal.sendSequence",
-                    "args": {"text": "\u000D clear ; make test \u000D"}}
+                    "args": {"text": "\u000D clear ; ./example.mk \u000D"}}
                 ]
         },
     ],
@@ -28,6 +28,7 @@
     "files.watcherExclude": {
     },
     "files.associations": {
+        "*.rc":"makefile"
     },
     // / files
 
