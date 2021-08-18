@@ -43,16 +43,6 @@ all: $(BIN)/$(MODULE).jar
 jar: $(BIN)/$(MODULE).jar
 	java -jar $<
 
-
-build: $(BIN)/$(MODULE).jar
-$(BIN)/$(MODULE).jar: $(CLASS) Makefile
-	$(JAR) cfm $@ res/manifest.mf -C classes $(PACKPATH)
-	$(JAR) tf  $@
-
-compile: $(CLASS)
-$(CLASS): $(J)
-	$(JAVAC) $(JFLAGS) $^
-
 run: $(CLASS)
 	$(JAVA) $(MAINCLASS) $(shell ls)
 

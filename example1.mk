@@ -1,10 +1,10 @@
 #!/usr/bin/make -f
 
-MAINCLASS ?= Example1
-
 -include vars.mk
+
+MAINCLASS = Example1
 
 example: classes/Example1.class
 	$(JAVA) $(MAINCLASS) arg1 arg2 arg3
-classes/Example1.class: src/Example1.java *.mk
-	$(JAVAC) $<
+classes/Example1.class: src/Example1.java
+	$(JAVAC) $(JFLAGS) $<

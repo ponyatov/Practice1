@@ -17,13 +17,13 @@ REL     = $(shell git rev-parse --short=4 HEAD)
 # current (project) directory
 CWD     = $(CURDIR)
 # .java source code
-SRC     = $(CWD)/src
+SRC     = src
 # temporary/generated files
-TMP     = $(CWD)/tmp
+TMP     = tmp
 # compiled classes
-CLS     = $(CWD)/classes
+CLS     = classes
 # resources
-RES     = $(CWD)/res
+RES     = res
 # / dir
 
 # \ version
@@ -40,3 +40,12 @@ ANTLR   = antlr4
 GJF     = lib/google-java-format-$(GJF_VER).jar
 JUNIT   = lib/junit-$(JUNIT_VER).jar
 # / tool
+
+# \ src
+J += $(shell find src -type f -regex ".+.java$$")
+S += $(J)
+S += $(shell ls *.mk)
+# / src
+
+# .class files list from $(J)
+CLASS = $(shell echo $(J) | sed "s/src/classes/g" | sed "s/\.java/\.class/g")
