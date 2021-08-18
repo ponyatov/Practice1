@@ -4,4 +4,4 @@
 
 .PHONY: docs
 docs: $(J)
-	javadoc $(JFLAGS) -private $(J)
+	javadoc $(JFLAGS) -d $@ -private $(J)

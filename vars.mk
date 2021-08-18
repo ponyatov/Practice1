@@ -51,6 +51,6 @@ S += $(shell ls *.mk)
 CLASS = $(shell echo $(J) | sed "s/src/classes/g" | sed "s/\.java/\.class/g")
 
 # Java compiler flags
-JFLAGS += -d $(CLS)
-JFLAGS += -cp $(CLS)
-JFLAGS += -cp $(JUNIT)
+JPATH  += -cp $(CLS)
+JPATH  += -cp $(JUNIT)
+JFLAGS += -d $(CLS) $(JPATH)
