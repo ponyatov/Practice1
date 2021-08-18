@@ -35,23 +35,7 @@ S += $(J)
 S += $(shell ls *.mk)
 # / src
 
-
-###############################################################################
-
-all: $(BIN)/$(MODULE).jar
-jar: $(BIN)/$(MODULE).jar
-	java -jar $<
-
-run: $(CLASS)
-	$(JAVA) $(MAINCLASS) $(shell ls)
-
-.PHONY: test
-test: $(BIN)/$(MODULE).jar lib/$(JUNIT_JAR)
-	$(JAVA) -cp $(BIN)/$(MODULE).jar;lib/$(JUNIT_JAR) \
-		org.junit.runner.JUnitCore \
-			$(PACKAGE).operation.tests.OperationTest
-
-###############################################################################
+all:
 
 MERGE  = Makefile README.md apt.txt .gitignore $(S) .vimrc
 MERGE += lib tmp $(BIN) $(SRC) $(CLS) $(RES)
