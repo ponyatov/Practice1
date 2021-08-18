@@ -34,7 +34,7 @@ GJF_VER   = 1.11.0
 # \ tool
 CURL    = curl -L -o
 JAVAC   = javac
-JAVA    = java -cp $(CLS)
+JAVA    = java
 JAR     = jar
 ANTLR   = antlr4
 GJF     = lib/google-java-format-$(GJF_VER).jar
@@ -51,4 +51,6 @@ S += $(shell ls *.mk)
 CLASS = $(shell echo $(J) | sed "s/src/classes/g" | sed "s/\.java/\.class/g")
 
 # Java compiler flags
-JFLAGS += -d $(CLS) -cp $(JUNIT)
+JFLAGS += -d $(CLS)
+JFLAGS += -cp $(CLS)
+JFLAGS += -cp $(JUNIT)
