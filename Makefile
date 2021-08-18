@@ -7,25 +7,33 @@ OS      = $(shell uname -s)
 NOW     = $(shell date +%d%m%y)
 # release hash: four hex digits (for snapshots)
 REL     = $(shell git rev-parse --short=4 HEAD)
+# current branch
+BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
+# number of CPU cores (for parallel builds)
+CORES   = $(shell grep processor /proc/cpuinfo| wc -l)
 # / var
 
 # \ dir
 # current (project) directory
 CWD     = $(CURDIR)
+# compiled/executable files (target dir)
+BIN     = $(CWD)/build
 # source code (not for all languages, Rust/C included)
-SRC     = $(CWD)/sources
+SRC     = $(CWD)/src
 # temporary/generated files
 TMP     = $(CWD)/tmp
 CLS     = $(CWD)/classes
 RES     = $(CWD)/res
-BLD     = $(CWD)/build
 # / dir
+
+JUNIT_VER = 4.13.2
+JUNIT_JAR = junit-$(JUNIT_VER).jar
 
 # \ tool
 # http/ftp download tool
 CURL    = curl -L -o
 JAVA    = $(shell which java) -cp $(CLS)
-JAVAC   = $(shell which javac)
+JAVAC   = $(shell which javac) -cp lib/$(JUNIT_JAR)
 JAR     = $(shell which jar)
 ANTLR   = $(shell which antlr4)
 # / tool
@@ -33,26 +41,29 @@ ANTLR   = $(shell which antlr4)
 # \ cfg
 # JFLAGS += -source 8 -target 1.8
 JFLAGS += -d $(CLS)
+
+MAINCLASS = $(PACKAGE).MainClass
 # / cfg
 
 # \ src
-J += $(shell find sources -type f -regex ".+.java$$")
+J += $(shell find src -type f -regex ".+.java$$")
 S += $(J)
+S += $(shell ls *.mk)
 # / src
 
-CLASS = $(shell echo $(J) | sed "s/sources/classes/g" | sed "s/\.java/\.class/g")
+CLASS = $(shell echo $(J) | sed "s/src/classes/g" | sed "s/\.java/\.class/g")
 
 ###############################################################################
 
-all: build/$(MODULE).jar
-jar: build/$(MODULE).jar
+all: $(BIN)/$(MODULE).jar
+jar: $(BIN)/$(MODULE).jar
 	java -jar $<
 
 PACKAGE  = com.nc.edu.ta.pr1
 PACKPATH = $(shell echo $(PACKAGE) | sed "s/\./\//g")
 
-build: build/$(MODULE).jar
-build/$(MODULE).jar: $(CLASS) Makefile
+build: $(BIN)/$(MODULE).jar
+$(BIN)/$(MODULE).jar: $(CLASS) Makefile
 	$(JAR) cfm $@ res/manifest.mf -C classes $(PACKPATH)
 	$(JAR) tf  $@
 
@@ -60,36 +71,48 @@ compile: $(CLASS)
 $(CLASS): $(J)
 	$(JAVAC) $(JFLAGS) $^
 
-MAIN = Example1
-MAIN = $(PACKAGE).MainClass
-
-run test: $(CLASS)
-	$(JAVA) $(MAIN) $(shell ls)
+run: $(CLASS)
+	$(JAVA) $(MAINCLASS) $(shell ls)
 
 .PHONY: docs
 docs: $(J)
 	javadoc -d $@ -private $(J)
 
+.PHONY: test
+test: $(BIN)/$(MODULE).jar lib/$(JUNIT_JAR)
+	$(JAVA) -cp $(BIN)/$(MODULE).jar;lib/$(JUNIT_JAR) \
+		org.junit.runner.JUnitCore \
+			$(PACKAGE).operation.tests.OperationTest
+
 ###############################################################################
+
+lib/$(JUNIT_JAR):
+	$(CURL) $@ https://search.maven.org/remotecontent?filepath=junit/junit/$(JUNIT_VER)/$(JUNIT_JAR)
 
 .PHONY: install $(OS)_install
 install: $(OS)_install
+	$(MAKE) lib/$(JUNIT_JAR)
 $(OS)_install:
 	sudo apt update
 	sudo apt install -u `cat apt.txt`
 
+###############################################################################
+
 MERGE  = Makefile README.md apt.txt .gitignore $(S) .vimrc
-MERGE += tmp $(SRC) $(CLS) $(RES) $(BLD)
+MERGE += lib tmp $(BIN) $(SRC) $(CLS) $(RES)
 
 .PHONY: dev
 dev:
+#	git push -v
 	git checkout $@
+#	git pull -v
 	git checkout ponymuck -- $(MERGE)
 
 .PHONY: ponymuck
 ponymuck:
-	git push -v
+#	git push -v
 	git checkout $@
+#	git pull -v
 
 .PHONY: release
 release:
