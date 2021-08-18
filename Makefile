@@ -22,25 +22,12 @@ BIN     = $(CWD)/build
 SRC     = $(CWD)/src
 # temporary/generated files
 TMP     = $(CWD)/tmp
-CLS     = $(CWD)/classes
-RES     = $(CWD)/res
 # / dir
 
 # \ tool
 # http/ftp download tool
 CURL    = curl -L -o
-JAVAC   = javac -d $(CLS)
-JAVAC   = javac -cp $(CLS);lib/$(JUNIT_JAR)
-JAR     = jar
-ANTLR   = antlr4
 # / tool
-
-# \ cfg
-# JFLAGS += -source 8 -target 1.8
-JFLAGS += -d $(CLS)
-
-MAINCLASS = $(PACKAGE).MainClass
-# / cfg
 
 # \ src
 J += $(shell find src -type f -regex ".+.java$$")
@@ -56,8 +43,6 @@ all: $(BIN)/$(MODULE).jar
 jar: $(BIN)/$(MODULE).jar
 	java -jar $<
 
-PACKAGE  = com.nc.edu.ta.pr1
-PACKPATH = $(shell echo $(PACKAGE) | sed "s/\./\//g")
 
 build: $(BIN)/$(MODULE).jar
 $(BIN)/$(MODULE).jar: $(CLASS) Makefile

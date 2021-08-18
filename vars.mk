@@ -1,3 +1,7 @@
+PACKAGE   = com.nc.edu.ta.pr1
+PACKPATH  = $(shell echo $(PACKAGE) | sed "s/\./\//g")
+MAINCLASS = $(PACKAGE).MainClass
+
 # \ var
 # detect module/project name by current directory
 MODULE  = $(notdir $(CURDIR))
@@ -22,14 +26,17 @@ CLS     = $(CWD)/classes
 RES     = $(CWD)/res
 # / dir
 
+# \ version
+JUNIT_VER = 4.13.2
+GJF_VER   = 1.11.0
+# / version
+
 # \ tool
+CURL    = curl -L -o
 JAVAC   = javac -d $(CLS)
 JAVA    = java -cp $(CLS)
 JAR     = jar
 ANTLR   = antlr4
+GJF     = lib/google-java-format-$(GJF_VER).jar
+JUNIT   = lib/junit-$(JUNIT_VER).jar
 # / tool
-
-# \ jar
-JUNIT_VER = 4.13.2
-JUNIT_JAR = junit-$(JUNIT_VER).jar
-# / jar
