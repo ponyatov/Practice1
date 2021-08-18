@@ -48,6 +48,7 @@ MAINCLASS = $(PACKAGE).MainClass
 # \ src
 J += $(shell find src -type f -regex ".+.java$$")
 S += $(J)
+S += $(shell ls *.mk)
 # / src
 
 CLASS = $(shell echo $(J) | sed "s/src/classes/g" | sed "s/\.java/\.class/g")
