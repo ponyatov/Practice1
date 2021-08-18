@@ -26,16 +26,13 @@ CLS     = $(CWD)/classes
 RES     = $(CWD)/res
 # / dir
 
-JUNIT_VER = 4.13.2
-JUNIT_JAR = junit-$(JUNIT_VER).jar
-
 # \ tool
 # http/ftp download tool
 CURL    = curl -L -o
-JAVA    = $(shell which java) -cp $(CLS)
-JAVAC   = $(shell which javac) -cp lib/$(JUNIT_JAR)
-JAR     = $(shell which jar)
-ANTLR   = $(shell which antlr4)
+JAVAC   = javac -d $(CLS)
+JAVAC   = javac -cp $(CLS);lib/$(JUNIT_JAR)
+JAR     = jar
+ANTLR   = antlr4
 # / tool
 
 # \ cfg
@@ -86,20 +83,8 @@ test: $(BIN)/$(MODULE).jar lib/$(JUNIT_JAR)
 
 ###############################################################################
 
-lib/$(JUNIT_JAR):
-	$(CURL) $@ https://search.maven.org/remotecontent?filepath=junit/junit/$(JUNIT_VER)/$(JUNIT_JAR)
-
-.PHONY: install $(OS)_install
-install: $(OS)_install
-	$(MAKE) lib/$(JUNIT_JAR)
-$(OS)_install:
-	sudo apt update
-	sudo apt install -u `cat apt.txt`
-
-###############################################################################
-
 MERGE  = Makefile README.md apt.txt .gitignore $(S) .vimrc
-MERGE += tmp $(BIN) $(SRC) $(CLS) $(RES)
+MERGE += lib tmp $(BIN) $(SRC) $(CLS) $(RES)
 
 .PHONY: dev
 dev:
