@@ -35,7 +35,6 @@ S += $(J)
 S += $(shell ls *.mk)
 # / src
 
-CLASS = $(shell echo $(J) | sed "s/src/classes/g" | sed "s/\.java/\.class/g")
 
 ###############################################################################
 
