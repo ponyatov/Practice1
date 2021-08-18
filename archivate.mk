@@ -6,5 +6,5 @@
 zip:
 	git archive \
 		--format zip \
-		--output $(TMP)/$(MODULE)_$(NOW)_$(REL).src.zip \
+		--output $(TMP)/$(MODULE)_$(BRANCH)_$(NOW)_$(REL).src.zip \
 	HEAD

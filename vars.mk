@@ -11,6 +11,10 @@ OS      = $(shell uname -s)
 NOW     = $(shell date +%d%m%y)
 # git release hash: four hex digits (for snapshots)
 REL     = $(shell git rev-parse --short=4 HEAD)
+# current branch
+BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
+# number of CPU cores (for parallel builds)
+CORES   = $(shell grep processor /proc/cpuinfo| wc -l)
 # / var
 
 # \ dir
