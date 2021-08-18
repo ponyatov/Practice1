@@ -1,6 +1,6 @@
 package com.nc.edu.ta.pr1;
 
-import com.nc.edu.ta.pr1.Operation;
+import com.nc.edu.ta.pr1.operations.*;
 
 class MainClass {
     public static void main(String[] args) {

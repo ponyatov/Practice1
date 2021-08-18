@@ -26,11 +26,14 @@ CLS     = $(CWD)/classes
 RES     = $(CWD)/res
 # / dir
 
+JUNIT_VER = 4.13.2
+JUNIT_JAR = junit-$(JUNIT_VER).jar
+
 # \ tool
 # http/ftp download tool
 CURL    = curl -L -o
 JAVA    = $(shell which java) -cp $(CLS)
-JAVAC   = $(shell which javac)
+JAVAC   = $(shell which javac) -cp lib/$(JUNIT_JAR)
 JAR     = $(shell which jar)
 ANTLR   = $(shell which antlr4)
 # / tool
@@ -68,17 +71,21 @@ compile: $(CLASS)
 $(CLASS): $(J)
 	$(JAVAC) $(JFLAGS) $^
 
-run test: $(CLASS)
+run: $(CLASS)
 	$(JAVA) $(MAINCLASS) $(shell ls)
 
 .PHONY: docs
 docs: $(J)
 	javadoc -d $@ -private $(J)
 
+.PHONY: test
+test: $(BIN)/$(MODULE).jar lib/$(JUNIT_JAR)
+	$(JAVA) -cp $(BIN)/$(MODULE).jar;lib/$(JUNIT_JAR) \
+		org.junit.runner.JUnitCore \
+			$(PACKAGE).operation.tests.OperationTest
+
 ###############################################################################
 
-JUNIT_VER = 4.13.2
-JUNIT_JAR = junit-$(JUNIT_VER).jar
 lib/$(JUNIT_JAR):
 	$(CURL) $@ https://search.maven.org/remotecontent?filepath=junit/junit/$(JUNIT_VER)/$(JUNIT_JAR)
 
