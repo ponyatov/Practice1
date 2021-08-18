@@ -45,10 +45,6 @@ jar: $(BIN)/$(MODULE).jar
 run: $(CLASS)
 	$(JAVA) $(MAINCLASS) $(shell ls)
 
-.PHONY: docs
-docs: $(J)
-	javadoc -d $@ -private $(J)
-
 .PHONY: test
 test: $(BIN)/$(MODULE).jar lib/$(JUNIT_JAR)
 	$(JAVA) -cp $(BIN)/$(MODULE).jar;lib/$(JUNIT_JAR) \
