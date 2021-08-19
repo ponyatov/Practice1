@@ -2,7 +2,11 @@
 
 -include vars.mk
 
-test:
-	$(JAVA) $(JPATH) \
+.PHONY: test
+test: tmp/test
+tmp/test: $(J)
+	./build.mk
+	$(JAVA) -cp $(CLS) -jar $(JUNIT) \
 		org.junit.runner.JUnitCore \
 			$(PACKAGE).operations.tests.OperationTest
+	touch $@

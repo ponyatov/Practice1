@@ -4,6 +4,9 @@
 
 JFILES = $(shell find $(SRC)/$(PACKPATH) -type f -regex ".+.java$$")
 
-compile:
+.PHONY: compile
+compile: tmp/compile
+tmp/compile: $(J)
 	rm -rf $(CLS)/com
 	$(JAVAC) $(JFLAGS) $(JFILES)
+	touch $@
