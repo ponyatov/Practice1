@@ -30,8 +30,6 @@ CLS     = classes
 RES     = res
 # / dir
 
-JAVA_HOME = $(HOME)/Java/jdk8
-
 # Java class-path
 CP = $(CLS)
 
