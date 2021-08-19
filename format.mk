@@ -2,7 +2,5 @@
 
 -include vars.mk
 
-format: tmp/format
-tmp/format: $(J)
-	$(JAVA) -jar $(GJF) --replace $?
-	touch $@
+format: $(J) src/Example1.java
+	java -jar $(GJF) --replace $^

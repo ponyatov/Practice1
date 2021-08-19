@@ -2,14 +2,19 @@
 
 -include vars.mk
 
-install: $(OS)_install
-	$(MAKE) $(GJF) $(JUNIT)
+install: $(OS)_install gjf junit
 
 Linux_install:
+ifneq (,$(shell which apt))
 	sudo apt update
 	sudo apt install -u `cat apt.txt`
+endif
 
-junit: $(JUNIT)
+hamcrest: $(HAMCREST)
+$(HAMCREST):
+	$(CURL) $@ https://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest/$(HAMCREST_VER)/$(HAMCREST_JAR)
+
+junit: $(JUNIT) $(HAMCREST)
 $(JUNIT):
 	$(CURL) $@ https://search.maven.org/remotecontent?filepath=junit/junit/$(JUNIT_VER)/$(JUNIT_JAR)
 

@@ -2,9 +2,10 @@
 
 -include vars.mk
 
-.PHONY: build
+.PHONY: build build/$(MODULE).jar
 build: build/$(MODULE).jar
-build/$(MODULE).jar: $(J)
+build/$(MODULE).jar:
+	rm -f $@
 	./compile.mk
 	$(JAR) cfm $@ res/manifest.mf -C $(CLS) $(PACKPATH)
 	$(JAR) tf  $@

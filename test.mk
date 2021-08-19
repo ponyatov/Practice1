@@ -3,10 +3,8 @@
 -include vars.mk
 
 .PHONY: test
-test: tmp/test
-tmp/test: $(J)
+test: $(J)
 	./build.mk
-	$(JAVA) -cp $(CLS) -jar $(JUNIT) \
+	$(JAVA) $(JPATH) \
 		org.junit.runner.JUnitCore \
 			$(PACKAGE).operations.tests.OperationTest
-	touch $@

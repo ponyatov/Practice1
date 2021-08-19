@@ -30,24 +30,38 @@ CLS     = classes
 RES     = res
 # / dir
 
-# \ version
-JUNIT_VER = 4.13.2
-GJF_VER   = 1.11.0
-# / version
+JAVA_HOME = $(HOME)/Java/jdk8
+
+# Java class-path
+CP = $(CLS)
+
+# \ jar
+JUNIT_VER    = 4.13.2
+JUNIT_JAR    = junit-$(JUNIT_VER).jar
+JUNIT        = lib/$(JUNIT_JAR)
+CP += $(JUNIT)
+
+HAMCREST_VER = 2.2
+HAMCREST_JAR = hamcrest-$(HAMCREST_VER).jar
+HAMCREST     = lib/$(HAMCREST_JAR)
+CP += $(HAMCREST)
+
+GJF_VER      = 1.11.0
+GJF_JAR      = google-java-format-$(GJF_VER).jar
+GJF          = lib/$(GJF_JAR)
+# / jar
 
 # \ tool
 CURL    = curl -L -o
-JAVAC   = javac
-JAVA    = java
-JAR     = jar
+JAVAC   = $(JAVA_HOME)/bin/javac
+JAVA    = $(JAVA_HOME)/bin/java
+JAR     = $(JAVA_HOME)/bin/jar
 ANTLR   = antlr4
-GJF     = lib/google-java-format-$(GJF_VER).jar
-JUNIT   = lib/junit-$(JUNIT_VER).jar
 # / tool
 
 # \ src
-J += $(shell find src -type f -regex ".+.java$$")
-S += $(J)
+J += $(shell find $(SRC)/$(PACKPATH) -type f -regex ".+.java$$")
+S += $(J) src/Example1.java
 S += $(shell ls *.mk)
 # / src
 
@@ -55,6 +69,5 @@ S += $(shell ls *.mk)
 CLASS = $(shell echo $(J) | sed "s/src/classes/g" | sed "s/\.java/\.class/g")
 
 # Java compiler flags
-JPATH  += -cp $(CLS)
-JPATH  += -cp $(JUNIT)
+JPATH  += -cp $(shell echo $(CP) | sed "s/ /:/g")
 JFLAGS += -d $(CLS) $(JPATH)
